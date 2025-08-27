@@ -6,6 +6,7 @@ from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
+from werkzeug.security import generate_password_hash
 
 api = Blueprint('api', __name__)
 
@@ -22,31 +23,68 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+# @api.route('/register', methods=['POST'])
+# def register():
+#     try:
+#         data = request.json
+
+#         if not data['email'] or not data['password'] or not data['confirmPassword']:
+#             raise Exception({"error": 'missind data'})
+#         if  data['password'] != data['confirmPassword']:
+#             raise Exception({"error": 'passwords do not match'})
+#         stm = select(User).where(User.email == data['email'])
+#         existing_user = db.session.execute(stm).scalar_one_or_none()
+#         if existing_user:
+#             raise Exception({"error": 'email taken, try to login'})
+#         new_user = User(
+#             email = data['email'],
+#             password = data['password'],
+#             confirmPassword = data['confirmPassword'],
+#             is_active = True
+#         )
+#         db.session.add(new_user)
+#         db.session.commit()
+#         return jsonify(new_user.serialize()),201
+
+
+#     except Exception as e:
+#         print(e)
+#         db.session.rollback()
+#         return jsonify({"error": "something went wrong"}),400
+
+
+
 @api.route('/register', methods=['POST'])
 def register():
     try:
         data = request.json
 
-        if not data['email'] or not data['password'] or not data['confirmPassword']:
-            raise Exception({"error": 'missind data'})
-        if  data['password'] != data['confirmPassword']:
-            raise Exception({"error": 'passwords do not match'})
+        # Validar que los campos requeridos estén presentes
+        if not data.get('email') or not data.get('password') or not data.get('confirmPassword'):
+            return jsonify({"error": "Missing data"}), 400
+
+        # Validar que las contraseñas coincidan
+        if data['password'] != data['confirmPassword']:
+            return jsonify({"error": "Passwords do not match"}), 400
+
+        # Verificar si el usuario ya existe
         stm = select(User).where(User.email == data['email'])
         existing_user = db.session.execute(stm).scalar_one_or_none()
         if existing_user:
-            raise Exception({"error": 'email taken, try to login'})
+            return jsonify({"error": "Email already taken, try to login"}), 400
+
+        # Crear un nuevo usuario con la contraseña hasheada
         new_user = User(
-            email = data['email'],
-            password = data['password'],
-            confirmPassword = data['confirmPassword'],
-            is_active = True
+            email=data['email'],
+            password=generate_password_hash(data['password']),  # Hashear la contraseña
+            is_active=True
         )
         db.session.add(new_user)
         db.session.commit()
-        return jsonify(new_user.serialize()),201
 
+        return jsonify(new_user.serialize()), 201
 
     except Exception as e:
-        print(e)
+        print(f"Error: {e}")
         db.session.rollback()
-        return jsonify({"error": "something went wrong"}),400
+        return jsonify({"error": "Something went wrong"}), 500
