@@ -96,3 +96,6 @@ def register():
         print(f"Error: {e}")
         db.session.rollback()
         return jsonify({"error": "Something went wrong"}), 500
+    
+    
+api.route('/login', methods=['POST'])
