@@ -98,4 +98,83 @@ def register():
         return jsonify({"error": "Something went wrong"}), 500
     
     
-api.route('/login', methods=['POST'])
+@api.route('/users', methods=['GET'])
+def get_users():
+
+    stmt = select(User)
+    users = db.session.execute(stmt).scalars().all()
+    return jsonify([user.serialize() for user in users]), 200
+
+
+@api.route('/users/<int:id>', methods=['GET'])
+def get_oneUser(id):
+
+    stmt = select(User).where(User.id == id)
+    user = db.session.execute(stmt).scalar_one_or_none()
+    if user is None:
+        return jsonify({"error": "User not found"}), 400
+
+    return jsonify(user.serialize()), 200
+
+
+@api.route('/signup', methods=['POST'])
+def signup():
+    try:
+        data = request.get_json()
+
+        if not data["email"] or not data["password"]:
+            raise Exception({"error": "Missing Data"})
+
+        stmt = select(User).where(User.email == data["email"])
+        existing_user = db.session.execute(stmt).scalar_one_or_none()
+
+        if existing_user:
+            raise Exception({"error": "Existing email, try to SignIn"})
+
+        hashed_password = generate_password_hash(data["password"])
+
+        new_user = User(
+            email=data["email"],
+            password=hashed_password,
+            name=data.get("name"),
+            is_active=True
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify(new_user.serialize()), 201
+
+    except Exception as e:
+        print(e)
+
+        db.session.rollback()
+        return jsonify({"error": "somthing went wrong"}), 400
+
+
+@api.route('/signin', methods=['POST'])
+def signin():
+    try:
+        data = request.get_json()
+
+        if not data.get("password") or not data.get("identify"):
+            return jsonify({"error": "missing data"})
+
+        stmt = select(User).where(
+            or_(User.email == data["identify"], Users.username == data["identify"]))
+        user = db.session.execute(stmt).scalar_one_or_none()
+
+        if not user:
+            raise Exception({"error": "Email/Username not found"})
+
+        if not check_password_hash(user.password, data["password"]):
+            return jsonify({"success": False, "error": "wrong email/password"})
+
+        token = create_access_token(identity=str(user.id))
+
+        return jsonify({"success": True, "token": token, "msg": "SignIn OK", "user": user.serialize()}), 201
+
+    except Exception as e:
+        print(e)
+
+        db.session.rollback()
+        return jsonify({"error": "somthing went wrong"}), 400
