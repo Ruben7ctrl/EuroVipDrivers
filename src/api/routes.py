@@ -76,7 +76,7 @@ def register():
             return jsonify({"error": "Passwords do not match"}), 400
 
         # Verificar si el usuario ya existe
-        stm = select(User).where(User.email == data['email'])
+        stm = select(User).where(User.email == data.get('email'))
         existing_user = db.session.execute(stm).scalar_one_or_none()
         if existing_user:
             return jsonify({"error": "Email already taken, try to login"}), 400
