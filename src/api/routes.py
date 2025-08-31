@@ -134,10 +134,10 @@ def signup():
         hashed_password = generate_password_hash(data["password"])
 
         new_user = User(
-            email=data["email"],
-            password=hashed_password,
-            name=data.get("name"),
-            is_active=True
+            email= data["email"],
+            password= hashed_password,
+            name= data.get("name"),
+            is_active= True
         )
 
         db.session.add(new_user)
@@ -160,11 +160,11 @@ def signin():
             return jsonify({"error": "missing data"})
 
         stmt = select(User).where(
-            or_(User.email == data["identify"], Users.username == data["identify"]))
+            or_(User.email == data["identify"], User.name == data["identify"]))
         user = db.session.execute(stmt).scalar_one_or_none()
 
         if not user:
-            raise Exception({"error": "Email/Username not found"})
+            raise Exception({"error": "Email not found"})
 
         if not check_password_hash(user.password, data["password"]):
             return jsonify({"success": False, "error": "wrong email/password"})
