@@ -178,3 +178,34 @@ def signin():
 
         db.session.rollback()
         return jsonify({"error": "somthing went wrong"}), 400
+    
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    try:
+        data = request.get_json()
+        if not data.get("email"):
+            return jsonify({"error": "missing data"}), 400
+
+        stmt = select(User).where(User.email == data["email"])
+        user = db.session.execute(stmt).scalar_one_or_none()
+
+        if not user:
+            return jsonify({"error": "Email not found"}), 400
+
+        # Aquí puedes generar un token de restablecimiento de contraseña si lo deseas
+        reset_token = create_access_token(identity=str(user.id), expires_delta=False)
+
+        # Construir el enlace de restablecimiento de contraseña
+        reset_link = f"{request.host_url}reset-password?token={reset_token}"
+
+        # Enviar el correo electrónico
+        subject = "Password Reset Request"
+        body = f"Click the link to reset your password: {reset_link}"
+        send_mail(subject, [user.email], body)
+
+        return jsonify({"msg": "Password reset email sent"}), 200
+
+    except Exception as e:
+        print(e)
+        db.session.rollback()
+        return jsonify({"error": "something went wrong"}), 500
