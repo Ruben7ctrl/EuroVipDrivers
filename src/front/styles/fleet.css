@@ -1,0 +1,121 @@
+:root {
+  --ed-black: #0d0d0d;
+  --ed-graphite: #1f1f1f;
+  --ed-white: #fafafa;
+  --ed-silver: #b4b4b4;
+  --ed-gold: #cba135;
+  --ed-gold-hi: #f5c84c;
+  --ed-gold-lo: #9c7a22;
+}
+
+/* Contenedor general: fondo ya lo tienes; aquí centramos y definimos ancho */
+.fleet-bs {
+  padding: clamp(32px, 5vw, 64px) 16px;
+  display: grid;
+  place-items: center;
+  background: transparent; /* dejamos ver tu fondo existente */
+}
+
+.fleet-title {
+  font-family: "Cormorant Garamond", serif;
+  color: var(--ed-white);
+  font-size: clamp(28px, 5vw, 48px);
+  letter-spacing: 0.06em;
+  margin: 0 0 6px;
+}
+.fleet-subtitle {
+  color: rgba(250, 250, 250, 0.75);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+  margin: 0 0 8px;
+}
+
+/* Carousel y card grandes y centrados */
+.carousel {
+  width: min(1100px, 95vw);
+}
+.carousel-inner {
+  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    rgba(31, 31, 31, 0.9),
+    rgba(13, 13, 13, 0.9)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.fleet-card {
+  background: transparent;
+  border: 0;
+  max-width: 100%;
+}
+
+.fleet-img-wrap {
+  display: grid;
+  place-items: center;
+  padding: clamp(2px, 2.5vw, 10px);
+}
+.fleet-img {
+  width: 100%;
+  height: clamp(320px, 45vw, 520px);
+  object-fit: contain;
+  filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.55));
+  transform: translateZ(0);
+}
+
+/* Texto de card */
+.fleet-card-title {
+  font-family: "Cormorant Garamond", serif;
+  color: var(--ed-white);
+  font-size: clamp(22px, 3vw, 32px);
+  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+}
+.fleet-card-desc {
+  color: var(--ed-silver);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+/* Botón dorado coherente con tu marca */
+.ed-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+.ed-btn--gold {
+  color: #0d0d0d;
+  background: linear-gradient(
+    135deg,
+    var(--ed-gold-hi),
+    var(--ed-gold) 55%,
+    var(--ed-gold-lo)
+  );
+  box-shadow: 0 2px 16px rgba(203, 161, 53, 0.35);
+}
+.ed-btn--gold:hover {
+  filter: brightness(1.08);
+}
+
+/* Indicadores y controles con buen contraste */
+.carousel-indicators [data-bs-target] {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+.carousel-indicators .active {
+  background-color: var(--ed-gold);
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1) grayscale(1) brightness(1.6);
+}
