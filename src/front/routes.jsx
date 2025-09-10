@@ -9,10 +9,10 @@ import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
-import { Signin } from "./pages/Signing"; // Import the Signin component
-import { Fleet } from "./pages/fleet";
-import { Contact } from "./pages/contact";
-import { Book } from "./pages/book";
+import { Signin } from "./pages/Signin"; // Import the Signin component
+import { Fleet } from "./pages/Fleet";
+import { Contact } from "./pages/Contact";
+import { Book } from "./pages/Book";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
