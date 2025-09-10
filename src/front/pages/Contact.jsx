@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/singin.css";
+import "../styles/signin.css";
 
 
 export const Contact = () => {
