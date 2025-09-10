@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import "../styles/HeroShowcase.css";
-import anime from "animejs/lib/anime.es.js";
+import anime from "animejs";
 
 
 // Importa tus imágenes de coches negros (las que ya tienes)
 // Ajusta las rutas según tu estructura
-import car1 from "../assets/eurodriversvip/MercedesE.png";
-import car2 from "../assets/eurodriversvip/MercedesV.png";
-import car3 from "../assets/eurodriversvip/MercedesS.png";
-import car4 from "../assets/eurodriversvip/MercedesVito.png";
+import car1 from "../assets/eurovipdrivers/MercedesE.png";
+import car2 from "../assets/eurovipdrivers/MercedesV.png";
+import car3 from "../assets/eurovipdrivers/MercedesS.png";
+import car4 from "../assets/eurovipdrivers/MercedesVito.png";
 
 export default function HeroShowcase({ onBook }) {
     const cars = [car1, car2, car3, car4];

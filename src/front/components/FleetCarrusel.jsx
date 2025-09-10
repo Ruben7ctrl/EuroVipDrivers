@@ -4,10 +4,10 @@ import React from "react";
 
 import "../fleet.css";
 
-import car1 from "../assets/eurodriversvip/MercedesE.png";
-import car2 from "../assets/eurodriversvip/MercedesV.png";
-import car3 from "../assets/eurodriversvip/MercedesS.png";
-import car4 from "../assets/eurodriversvip/MercedesVito.png";
+import car1 from "../assets/eurovipdrivers/mercedesE.png";
+import car2 from "../assets/eurovipdrivers/mercedesV.png";
+import car3 from "../assets/eurovipdrivers/mercedesS.png";
+import car4 from "../assets/eurovipdrivers/mercedesVito.png";
 
 const FLEET = [
     {
