@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import "../styles/HeroShowcase.css";
 import anime from "animejs";
 
-
 // Importa tus imágenes de coches negros (las que ya tienes)
 // Ajusta las rutas según tu estructura
 import car1 from "../assets/eurovipdrivers/MercedesE.png";
