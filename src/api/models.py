@@ -24,6 +24,5 @@ class User(db.Model):
         }
 
 
-class Ride(db.Model):
-    __tablename__ = "ride"
-    
+# class Ride(db.Model):
+#     __tablename__ = "ride"
