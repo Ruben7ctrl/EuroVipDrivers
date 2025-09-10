@@ -52,7 +52,6 @@
 // }; 
 
 import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import "../styles/home.css";
 import HeroShowcase from "../components/HeroShowcase"; // ajusta la ruta
