@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "../HeroShowcase.css";
+import "../styles/HeroShowcase.css";
 import anime from "animejs/lib/anime.es.js";
 
 
