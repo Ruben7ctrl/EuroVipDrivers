@@ -2,7 +2,7 @@ import React from "react";
 
 
 
-import "../fleet.css";
+import "../styles/fleet.css";
 
 import car1 from "../assets/eurovipdrivers/mercedesE.png";
 import car2 from "../assets/eurovipdrivers/mercedesV.png";
