@@ -1,8 +1,8 @@
 
 import React, { useState } from "react";
-import "../styles/singin.css";
+import "../styles/fleet.css";
 import userServices from "../services/userServices";
-import FleetCarousel from "../components/fleetCarousel";
+import FleetCarousel from "../components/FleetCarrusel";
 
 export const Fleet = () => {
 
