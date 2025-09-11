@@ -210,3 +210,4 @@ def forgot_password():
         print(e)
         db.session.rollback()
         return jsonify({"error": "something went wrong"}), 500
+
