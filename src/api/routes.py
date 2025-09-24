@@ -9,10 +9,9 @@ from sqlalchemy import select
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
-# from api.mail.mailer import send_mail
+from api.mail.mailer import send_mail
 from flask import current_app
 from datetime import datetime
-from sqlalchemy import and_, or_, func
 import os
 
 import stripe
@@ -202,7 +201,7 @@ def forgot_password():
         # Enviar el correo electrónico
         subject = "Password Reset Request"
         body = f"Click the link to reset your password: {reset_link}"
-        # send_mail(subject, [user.email], body)  # TODO: Implement mail functionality
+        send_mail(subject, [user.email], body)
 
         return jsonify({"msg": "Password reset email sent"}), 200
 
@@ -210,4 +209,3 @@ def forgot_password():
         print(e)
         db.session.rollback()
         return jsonify({"error": "something went wrong"}), 500
-
