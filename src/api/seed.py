@@ -6,11 +6,12 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from app import app
 from api.models import db
-from seed_data import (
+from .seed_data import (
     seed_users,
     seed_customers,
     seed_drivers,
     seed_vehicles,
+    seed_master_data,
     seed_bookings,
     seed_payments,
     seed_booking_charges
@@ -41,17 +42,22 @@ with app.app_context():
     db.session.add_all(vehicles)
     db.session.commit()
 
-    # 5. Bookings
-    bookings = seed_bookings(customers, drivers, vehicles)
+    # 5. Catálogos (Ciudades y Tipos de Servicio)
+    cities, service_types = seed_master_data()
+    db.session.add_all(cities + service_types)
+    db.session.commit()
+
+    # 6. Bookings
+    bookings = seed_bookings(customers, cities, service_types)
     db.session.add_all(bookings)
     db.session.commit()
 
-    # 6. Payments
+    # 7. Payments
     payments = seed_payments(bookings)
     db.session.add_all(payments)
     db.session.commit()
 
-    # 7. Booking Charges
+    # 8. Booking Charges
     charges = seed_booking_charges(bookings)
     db.session.add_all(charges)
     db.session.commit()

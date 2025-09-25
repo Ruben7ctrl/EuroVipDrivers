@@ -48,15 +48,24 @@ def handle_invalid_usage(error):
 
 @app.route('/')
 def sitemap():
-    if ENV == "development":
+    # En desarrollo o si no existe el build del front (dist/index.html), mostramos el sitemap
+    index_path = os.path.join(static_file_dir, 'index.html')
+    if ENV == "development" or not os.path.isfile(index_path):
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = 'index.html'
+    fullpath = os.path.join(static_file_dir, path)
+    # Si el archivo solicitado no existe, intentamos servir el index.html del build
+    if not os.path.isfile(fullpath):
+        index_path = os.path.join(static_file_dir, 'index.html')
+        if os.path.isfile(index_path):
+            path = 'index.html'
+        else:
+            # Sin build disponible, devolvemos el sitemap (evita página en blanco)
+            return generate_sitemap(app)
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0  # avoid cache memory
     return response
